@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Swiper</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>Swiper</h1>
+          <p class="tagline">I hardly know 'er</p>
+          <p id="deckMeta">Loading your watched movies...</p>
+        </div>
+        <div class="topbar-actions">
+          <button id="undoButton" class="icon-button" type="button" title="Undo last swipe" aria-label="Undo last swipe">
+            <span aria-hidden="true">↶</span>
+          </button>
+          <button id="resetButton" class="text-button" type="button">Reset</button>
+        </div>
+      </header>
+
+      <section class="stage" aria-label="Movie card deck">
+        <div class="deck" id="deck"></div>
+        <div class="empty-state" id="emptyState" hidden>
+          <h2>Deck complete</h2>
+          <p>Reset the deck to swipe through the movies again.</p>
+        </div>
+      </section>
+
+      <section id="recommendationPanel" class="recommendation-panel" aria-label="Current top recommendations" hidden>
+        <div class="recommendation-heading">
+          <h2>Current top 5</h2>
+          <p>Updates after every swipe.</p>
+        </div>
+        <div id="recommendationList" class="recommendation-list"></div>
+      </section>
+
+      <nav class="swipe-actions" aria-label="Swipe actions">
+        <button id="rejectButton" class="action-button reject" type="button" aria-label="Swipe left">
+          <span aria-hidden="true">✕</span>
+        </button>
+        <button id="skipButton" class="action-button skip" type="button" aria-label="Already seen or hide">
+          <span aria-hidden="true">↓</span>
+        </button>
+        <button id="profileButton" class="action-button profile" type="button">Profile</button>
+        <button id="superLikeButton" class="action-button super-like" type="button" aria-label="Strong yes">
+          <span aria-hidden="true">★</span>
+        </button>
+        <button id="likeButton" class="action-button like" type="button" aria-label="Swipe right">
+          <span aria-hidden="true">♥</span>
+        </button>
+        <div class="key-hints" aria-hidden="true">
+          <span><kbd>←</kbd> Nope</span>
+          <span><kbd>↓</kbd> Skip</span>
+          <span><kbd>Enter</kbd> Info</span>
+          <span><kbd>↑</kbd> Strong</span>
+          <span><kbd>→</kbd> Like</span>
+        </div>
+      </nav>
+    </main>
+
+    <dialog id="profileDialog" class="profile-dialog">
+      <div class="profile-panel">
+        <button id="closeProfileButton" class="close-button" type="button" aria-label="Close profile">×</button>
+        <div class="profile-media">
+          <img id="profileBackdrop" alt="" />
+        </div>
+        <div class="profile-body">
+          <div class="profile-heading">
+            <div>
+              <h2 id="profileTitle"></h2>
+              <p id="profileSubline"></p>
+            </div>
+            <img id="profilePoster" alt="" />
+          </div>
+          <p id="profileOverview" class="profile-overview"></p>
+          <div id="profileDetails" class="profile-details"></div>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
