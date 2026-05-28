@@ -63,7 +63,7 @@ jobs:
 
       - name: Rebuild dense embeddings
         if: steps.sync.outputs.changed == 'true'
-        run: python scripts/build_movie_embeddings.py
+        run: python scripts/build_movie_embeddings.py --reuse-existing
 
       - name: Remove ignored sync intermediates
         if: steps.sync.outputs.changed == 'true'
