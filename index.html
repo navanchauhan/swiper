@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Swiper</title>
     <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lora:ital,wght@0,400;0,600;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script async src="https://plausible.io/js/pa-SuXL31qHE4j-Qw_x3V_KR.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
   </head>
   <body>
     <main class="app-shell">
@@ -13,7 +21,7 @@
         <div>
           <h1>Swiper</h1>
           <p class="tagline">I hardly know 'er</p>
-          <p id="deckMeta">Loading your watched movies...</p>
+          <p id="deckMeta">Loading movies...</p>
         </div>
         <div class="topbar-actions">
           <button id="undoButton" class="icon-button" type="button" title="Undo last swipe" aria-label="Undo last swipe">
@@ -26,15 +34,16 @@
       <section class="stage" aria-label="Movie card deck">
         <div class="deck" id="deck"></div>
         <div class="empty-state" id="emptyState" hidden>
-          <h2>Deck complete</h2>
-          <p>Reset the deck to swipe through the movies again.</p>
+          <h2>All caught up</h2>
+          <p>Hit Reset to start over.</p>
+          <button id="emptyResetButton" class="text-button" type="button" style="margin-top:18px">Reset</button>
         </div>
       </section>
 
-      <section id="recommendationPanel" class="recommendation-panel" aria-label="Current top recommendations" hidden>
+      <section id="recommendationPanel" class="recommendation-panel" aria-label="Top recommendations" hidden>
         <div class="recommendation-heading">
-          <h2>Current top 5</h2>
-          <p>Updates after every swipe.</p>
+          <h2>Top picks</h2>
+          <p>Refreshes as you swipe</p>
         </div>
         <div id="recommendationList" class="recommendation-list"></div>
       </section>
@@ -43,10 +52,10 @@
         <button id="rejectButton" class="action-button reject" type="button" aria-label="Swipe left">
           <span aria-hidden="true">✕</span>
         </button>
-        <button id="skipButton" class="action-button skip" type="button" aria-label="Already seen or hide">
+        <button id="skipButton" class="action-button skip" type="button" aria-label="Skip">
           <span aria-hidden="true">↓</span>
         </button>
-        <button id="profileButton" class="action-button profile" type="button">Profile</button>
+        <button id="profileButton" class="action-button profile" type="button">Info</button>
         <button id="superLikeButton" class="action-button super-like" type="button" aria-label="Strong yes">
           <span aria-hidden="true">★</span>
         </button>

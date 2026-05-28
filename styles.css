@@ -1,15 +1,16 @@
 :root {
   color-scheme: dark;
-  --bg: #111313;
-  --surface: #181b1b;
-  --surface-strong: #202525;
-  --text: #f4f0e8;
-  --muted: #a8aba6;
-  --border: rgba(244, 240, 232, 0.14);
-  --green: #42d18b;
-  --red: #ff6a6a;
-  --gold: #f2c66d;
-  --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  --bg: #1c1c1c;
+  --surface: #272727;
+  --surface-strong: #303030;
+  --text: #f0f0ee;
+  --muted: #888886;
+  --border: rgba(240, 240, 238, 0.12);
+  --green: #5a9e6d;
+  --red: #c05858;
+  --gold: #c8c878;
+  --blue: #4a85a8;
+  --shadow: 0 28px 80px rgba(0, 0, 0, 0.55);
 }
 
 * {
@@ -20,10 +21,10 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 20% 0%, rgba(242, 198, 109, 0.13), transparent 28rem),
-    linear-gradient(135deg, #101111, #171a1a 56%, #0c0d0d);
+    radial-gradient(circle at 20% 0%, rgba(46, 90, 114, 0.16), transparent 28rem),
+    linear-gradient(135deg, #181818, #222222 56%, #141414);
   color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'PT Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 button {
@@ -49,9 +50,10 @@ button {
 
 .topbar h1 {
   margin: 0;
+  font-family: 'Abril Fatface', serif;
   font-size: clamp(28px, 5vw, 48px);
   line-height: 1;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: 0;
 }
 
@@ -91,7 +93,7 @@ button {
 .action-button:hover,
 .close-button:hover {
   transform: translateY(-1px);
-  border-color: rgba(244, 240, 232, 0.28);
+  border-color: rgba(240, 240, 238, 0.28);
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -108,9 +110,9 @@ button {
 }
 
 .action-button.super-like:hover {
-  background: rgba(242, 198, 109, 0.13);
-  border-color: rgba(242, 198, 109, 0.5);
-  box-shadow: 0 0 24px rgba(242, 198, 109, 0.22);
+  background: rgba(74, 133, 168, 0.13);
+  border-color: rgba(74, 133, 168, 0.5);
+  box-shadow: 0 0 24px rgba(74, 133, 168, 0.22);
 }
 
 .action-button.skip:hover {
@@ -161,7 +163,7 @@ button {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border: 1px solid rgba(244, 240, 232, 0.16);
+  border: 1px solid rgba(240, 240, 238, 0.14);
   border-radius: 24px;
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -203,10 +205,11 @@ button {
 
 .card-title {
   margin: 0;
+  font-family: 'Abril Fatface', serif;
   font-size: clamp(28px, 7vw, 44px);
   line-height: 0.98;
-  font-weight: 850;
-  letter-spacing: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
@@ -224,9 +227,10 @@ button {
   margin: 14px 0 0;
   display: -webkit-box;
   overflow: hidden;
-  color: rgba(244, 240, 232, 0.82);
+  color: rgba(240, 240, 238, 0.82);
+  font-family: Lora, Georgia, serif;
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.5;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }
@@ -258,16 +262,17 @@ button {
 
 .decision-badge.super {
   left: 50%;
-  color: var(--gold);
+  color: var(--blue);
   transform: translateX(-50%) rotate(0deg);
 }
 
 .card-reason {
   min-height: 18px;
   margin: 12px 0 0;
-  color: rgba(242, 198, 109, 0.92);
+  color: rgba(200, 200, 120, 0.92);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   line-height: 1.35;
 }
 
@@ -321,7 +326,7 @@ button {
 }
 
 .recommendation-item:hover {
-  border-color: rgba(242, 198, 109, 0.45);
+  border-color: rgba(200, 200, 120, 0.45);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -381,8 +386,8 @@ button {
   width: auto;
   min-width: 112px;
   padding: 0 24px;
-  color: #151513;
-  background: var(--gold);
+  color: #ffffff;
+  background: var(--blue);
   border-color: transparent;
   font-size: 15px;
 }
@@ -396,7 +401,7 @@ button {
 }
 
 .action-button.super-like {
-  color: var(--gold);
+  color: var(--blue);
 }
 
 .action-button.skip {
@@ -466,7 +471,9 @@ button {
 
 .empty-state h2 {
   margin: 0 0 8px;
+  font-family: 'Abril Fatface', serif;
   font-size: 34px;
+  font-weight: 400;
 }
 
 .empty-state p {
@@ -535,17 +542,19 @@ button {
 
 .profile-heading h2 {
   margin: 0;
+  font-family: 'Abril Fatface', serif;
   font-size: clamp(32px, 5vw, 58px);
+  font-weight: 400;
   line-height: 0.98;
-  letter-spacing: 0;
+  letter-spacing: -0.01em;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.65);
 }
 
 .profile-heading p {
   margin: 12px 0 0;
-  color: rgba(244, 240, 232, 0.78);
+  color: rgba(240, 240, 238, 0.78);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .profile-heading img {
@@ -560,9 +569,10 @@ button {
 .profile-overview {
   margin: 24px 0 0;
   max-width: 74ch;
-  color: rgba(244, 240, 232, 0.86);
+  color: rgba(240, 240, 238, 0.86);
+  font-family: Lora, Georgia, serif;
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .profile-details {
@@ -588,9 +598,10 @@ button {
 
 .detail-block p {
   margin: 0;
-  color: rgba(244, 240, 232, 0.84);
+  color: rgba(240, 240, 238, 0.84);
+  font-family: Lora, Georgia, serif;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 @media (max-width: 680px) {
@@ -609,6 +620,10 @@ button {
 
   .text-button {
     display: none;
+  }
+
+  .empty-state .text-button {
+    display: inline-flex;
   }
 
   .deck {

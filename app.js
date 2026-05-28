@@ -21,6 +21,7 @@ const state = {
   history: [],
   results: [],
   activeDrag: null,
+  dragConsumed: false,
   isAnimating: false,
 };
 
@@ -343,7 +344,7 @@ function tokenLabel(token) {
 
 function explanationFor(record, max = 3) {
   const positives = uniqueIds([...state.superLiked, ...state.liked]);
-  if (!positives.length) return ["broad seed pick"];
+  if (!positives.length) return [];
   const positiveTokens = {};
   for (const id of positives) {
     const likedRecord = state.byId.get(id);
@@ -387,12 +388,12 @@ function makeCard(record, offset) {
         <span>${list((movie.genres || []).slice(0, 2), "")}</span>
       </div>
       <p class="card-overview">${movie.overview || ""}</p>
-      <p class="card-reason">${reason ? `Why this: ${reason}` : ""}</p>
+      <p class="card-reason">${reason || ""}</p>
     </div>
   `;
   if (offset === 0) wireDrag(card);
   card.addEventListener("click", (event) => {
-    if (state.activeDrag?.moved) return;
+    if (state.dragConsumed) { state.dragConsumed = false; return; }
     if (event.target.closest("button")) return;
     openProfile(movie, record);
   });
@@ -552,7 +553,9 @@ function wireDrag(card) {
     const dx = event.clientX - state.activeDrag.startX;
     const dy = event.clientY - state.activeDrag.startY;
     const decision = dx > 110 ? "like" : dx < -110 ? "reject" : dy < -120 ? "super" : dy > 120 ? "skip" : null;
+    const wasMoved = state.activeDrag.moved;
     state.activeDrag = null;
+    if (wasMoved) state.dragConsumed = true;
     if (decision) {
       animateSwipe(card, decision);
     } else {
@@ -594,10 +597,10 @@ function openProfile(movie = currentMovie(), record = currentRecord()) {
     .join(" · ");
   profileOverview.textContent = movie.overview || "No overview available.";
   profileDetails.innerHTML = [
-    detailBlock("Recommended Because", reasons.length ? reasons.join(", ") : "Cold-start diversity pick"),
+    detailBlock("Why this film?", reasons.length ? reasons.join(", ") : "Still learning your taste"),
     detailBlock("Director", list(movie.crew?.directors)),
     detailBlock("Producer", list(producers)),
-    detailBlock("Screenplay / Writing", list(writers)),
+    detailBlock("Screenplay", list(writers)),
     detailBlock("Cinematography", list(movie.crew?.cinematographers)),
     detailBlock("Composer", list(movie.crew?.composers)),
     detailBlock("Cast", list(topCast(movie, 12))),
@@ -654,6 +657,7 @@ skipButton.addEventListener("click", () => {
 profileButton.addEventListener("click", () => openProfile());
 undoButton.addEventListener("click", undo);
 resetButton.addEventListener("click", reset);
+document.querySelector("#emptyResetButton").addEventListener("click", reset);
 closeProfileButton.addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", (event) => {
   if (event.target === dialog) dialog.close();
