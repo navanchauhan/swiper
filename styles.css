@@ -618,10 +618,6 @@ button {
     gap: 8px;
   }
 
-  .text-button {
-    display: none;
-  }
-
   .empty-state .text-button {
     display: inline-flex;
   }
