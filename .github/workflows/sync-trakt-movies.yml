@@ -1,0 +1,84 @@
+name: Sync Trakt movies
+
+on:
+  schedule:
+    - cron: "0 10 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: huggingface-minilm-${{ runner.os }}-v1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Sync watched movies from Trakt
+        id: sync
+        env:
+          TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
+          TRAKT_CLIENT_SECRET: ${{ secrets.TRAKT_CLIENT_SECRET }}
+          TRAKT_REFRESH_TOKEN: ${{ secrets.TRAKT_REFRESH_TOKEN }}
+          TRAKT_REDIRECT_URI: urn:ietf:wg:oauth:2.0:oob
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: python scripts/sync_trakt_movies.py
+
+      - name: Persist rotated Trakt refresh token
+        if: steps.sync.outputs.refresh_token_rotated == 'true'
+        env:
+          GH_PAT_FOR_SECRETS: ${{ secrets.GH_PAT_FOR_SECRETS }}
+          REFRESH_TOKEN_FILE: ${{ steps.sync.outputs.refresh_token_file }}
+        run: |
+          if [ -z "${GH_PAT_FOR_SECRETS:-}" ]; then
+            echo "::warning::Trakt returned a rotated refresh token, but GH_PAT_FOR_SECRETS is not set. Manually update the TRAKT_REFRESH_TOKEN repository secret before the next run."
+            exit 0
+          fi
+          GH_TOKEN="$GH_PAT_FOR_SECRETS" gh secret set TRAKT_REFRESH_TOKEN < "$REFRESH_TOKEN_FILE"
+
+      - name: Rebuild movie vectors
+        if: steps.sync.outputs.changed == 'true'
+        run: python scripts/build_movie_vectors.py
+
+      - name: Rebuild dense embeddings
+        if: steps.sync.outputs.changed == 'true'
+        run: python scripts/build_movie_embeddings.py
+
+      - name: Remove ignored sync intermediates
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          rm -rf data/enriched data/embeddings data/raw references
+          find data/assets/movies \( -name 'poster-w780.jpg' -o -name 'backdrop-w1280.jpg' \) -delete
+
+      - name: Commit synced movie data
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/assets/movies data/vectors/movie_vectors.json data/vectors/movie_embeddings_minilm.json
+          if git diff --cached --quiet; then
+            echo "No tracked movie data changed."
+            exit 0
+          fi
+          git commit -m "Sync Trakt watched movies"
+          git push
